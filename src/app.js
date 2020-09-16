@@ -4,6 +4,7 @@ import pkg from '../package.json';
 
 // Routers
 import ProductsRouters from './routes/products.routes';
+import AuthRouters from './routes/auth.routes';
 
 // Instancia de express
 const app = express();
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
   })
 });
 
-app.use('/products', ProductsRouters);
+app.use('/api/products', ProductsRouters);
+app.use('/api/auth', AuthRouters);
 
 export default app;

@@ -6,7 +6,8 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/companydb', {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: true
 }, (err) => {
     if (!err) {
         console.log('MongoDB Connection Succeeded.')

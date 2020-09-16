@@ -29,7 +29,10 @@ class ProductsController {
   }
 
   async show(req, res) {
-    return res.json();
+
+    const doc = await Product.findById(req.params.id);
+    
+    return res.status(200).json(doc);
   }
 
   async edit(req, res) {
@@ -37,11 +40,18 @@ class ProductsController {
   }
 
   async update(req, res) {
-    return res.json();
+
+    const doc = await Product.findByIdAndUpdate(req.params.id, req.body, {
+      new: true
+    })
+
+    return res.status(200).json(doc);
   }
 
   async destroy(req, res) {
-    return res.json();
+    const doc = await Product.findByIdAndDelete(req.params.id)
+
+    return res.status(204).json(doc);
   }
 
   async view(req, res) {
