@@ -1,6 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import pkg from '../package.json';
+import { createRoles } from './libs/inicialSetup';
 
 // Routers
 import ProductsRouters from './routes/products.routes';
@@ -8,6 +9,9 @@ import AuthRouters from './routes/auth.routes';
 
 // Instancia de express
 const app = express();
+
+// Create roles
+createRoles();
 
 app.set('pkg', pkg);
 
