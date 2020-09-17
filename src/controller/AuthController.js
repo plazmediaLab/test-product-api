@@ -8,25 +8,24 @@ class AuthController {
     try {
       
       // Destructuring info
-      const { username, email, password, roles } = req.body;
-      // Validate that the user does not exist
-      const userExist = await User.findOne({email});
-      if(userExist.length > 0){
-        // console.log(userExist.length);
-        throw new Error('El usuario ya existe');
+      const { name, email, password, roles } = req.body;
+      // Validate character length
+      if (password.length < 8) {
+        return res.status(400).json({error: 400, message: 'La CONTRASEÑA debe de tener al menos 8 caracteres'});
       }
+
       // New model instance
       const newUser = new User({
-        username,
+        name,
         email,
         password: await User.encryptPassword(password),
       });
       // Assign roles
-      if(roles){
+      if(roles && roles.length > 0){
         const foundRoles = await Role.find({ name: {$in: roles} });
         newUser.roles = foundRoles.map(role => role._id);
       }else{
-        const defaultRole = await Role.findOne({ name: 'user' });
+        const defaultRole = await Role.findOne({ name: 'USER_ROLE' });
         newUser.roles = [defaultRole._id];
       }
       // Save user
@@ -40,12 +39,7 @@ class AuthController {
       return res.status(200).json({"token": token});
       
     } catch (error) {
-      // Error response message
-      const resMsn = { error: 401, message: error.message};
-      // Response
-      console.log(resMsn);
-      // Error response
-      return res.status(401).json(resMsn);
+      return res.json(error);
     }
   }
 
@@ -55,7 +49,7 @@ class AuthController {
       // Find user
       const userFound = await User.findOne({email: req.body.email}).populate('roles');
       // If the user does not exist
-      if(!userFound) throw new Error('No hay usuario registrado con el email');
+      if(!userFound) throw new Error('No hay usuario registrado con ese email');
       // Check that the password is valid
       const matchPass = await User.comparePassword(req.body.password, userFound.password);
       // If the password does not match
