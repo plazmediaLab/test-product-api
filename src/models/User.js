@@ -55,6 +55,15 @@ UserSchema.statics.comparePassword = async (password, recivePassword) => {
   return await bcrypt.compare(password, recivePassword);
 };
 
+UserSchema.methods.toJSON = function() {
+  let user = this;
+  let userObject = user.toObject();
+
+  delete userObject.password;
+
+  return userObject;
+}
+
 UserSchema.plugin(uniqueValidator);
 
 export default mongoose.model('User', UserSchema);

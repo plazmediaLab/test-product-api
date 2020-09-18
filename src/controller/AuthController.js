@@ -37,7 +37,7 @@ class AuthController {
       });
   
       // Success response
-      return res.status(200).json({"token": token});
+      return res.status(200).json({"token": token, user: saveUser});
       
     } catch (error) {
       return res.json(error);
@@ -62,7 +62,7 @@ class AuthController {
       });
 
       // Success response
-      return res.status(200).json({"token": token});
+      return res.status(200).json({"token": token, user: userFound});
 
     } catch (error) {
       // Error response message

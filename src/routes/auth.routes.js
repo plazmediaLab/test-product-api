@@ -5,8 +5,15 @@ import AuthController from '../controller/AuthController';
 
 const routes = new Router();
 
-// Add routes
-routes.post('/signup', AuthController.signUp);// -> Crear usuario
-routes.post('/signin', AuthController.signIn);// -> Crear producto
+/*
+*   Sign Up 
+*   // -> Crear usuario
+*/
+routes.post('/signup', AuthController.signUp);
+/*
+*   Sign In 
+*   // -> Login a un usuario
+*/
+routes.post('/signin', AuthController.signIn);
 
 module.exports = routes;

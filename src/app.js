@@ -1,7 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
 import pkg from '../package.json';
-import { createRoles } from './libs/inicialSetup';
+import bodyParser from 'body-parser';
+import { RoleSeeder, CategorySeeder } from './libs/inicialSetup';
 
 // Routers
 import ProductsRouters from './routes/products.routes';
@@ -11,11 +12,16 @@ import AuthRouters from './routes/auth.routes';
 const app = express();
 
 // Create roles
-createRoles();
+RoleSeeder();
+CategorySeeder();
 
 app.set('pkg', pkg);
 
 // Middlewares
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan('dev'));
 
