@@ -1,7 +1,7 @@
 import User from '../models/User';
 import jwt from 'jsonwebtoken';
 import Role from '../models/Role';
-import { SECRET_WORD } from '../config';
+require('dotenv').config();
 
 class AuthController {
   async signUp(req, res) {
@@ -32,7 +32,7 @@ class AuthController {
       // Save user
       const saveUser = await newUser.save();
       // Create token
-      const token = jwt.sign({id: saveUser._id}, SECRET_WORD, {
+      const token = jwt.sign({id: saveUser._id}, process.env.SECRET_WORD, {
         expiresIn: '24h'
       });
   
@@ -57,7 +57,7 @@ class AuthController {
       if(!matchPass) throw new Error('El email o la contraseña son incorrectos');
 
       // Create token
-      const token = jwt.sign({id: userFound._id}, SECRET_WORD, {
+      const token = jwt.sign({id: userFound._id}, process.env.SECRET_WORD, {
         expiresIn: '24h'
       });
 
